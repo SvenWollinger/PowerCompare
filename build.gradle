@@ -28,6 +28,13 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0'
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'io.wollinger.powercompare.PowerCompare'
+        )
+    }
+}
 
 test {
     useJUnitPlatform()
