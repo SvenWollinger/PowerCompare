@@ -13,6 +13,6 @@ public class CompareItem {
     }
 
     public void compare(CompareItem other) {
-        for(other.displ)
+        
     }
 }
