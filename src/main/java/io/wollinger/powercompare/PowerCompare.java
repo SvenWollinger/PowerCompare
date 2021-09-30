@@ -24,6 +24,7 @@ public class PowerCompare {
         }
 
         new CompareItem(load(file1)).compare(new CompareItem(load(file2)));
+        //new CompareItem(load(file2)).compare(new CompareItem(load(file1)));
     }
 
     public static ArrayList<Data> load(File file) {
@@ -31,7 +32,8 @@ public class PowerCompare {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                list.add(new Data(line));
+                if(line.toLowerCase().startsWith("stopped") || line.toLowerCase().startsWith("started"))
+                    list.add(new Data(line));
             }
         } catch (IOException e) {
             e.printStackTrace();
