@@ -33,6 +33,11 @@ public class CompareItem {
             }
         }
 
+        for(String key : other.displayNameList.keySet()) {
+            if(!displayNameList.containsKey(key))
+                added.add(other.displayNameList.get(key));
+        }
+
         System.out.println("Changed items:\n");
         System.out.println("Running:");
         for(Data data : running)
