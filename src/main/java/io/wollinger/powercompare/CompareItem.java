@@ -17,7 +17,8 @@ public class CompareItem {
     ArrayList<Data> removed = new ArrayList<>();
     ArrayList<Data> added = new ArrayList<>();
 
-    public void compare(CompareItem other) {
+    public String compare(CompareItem other) {
+        String output = "";
         for(String key : displayNameList.keySet()) {
             if(!other.displayNameList.containsKey(key)) {
                 removed.add(displayNameList.get(key));
@@ -38,18 +39,20 @@ public class CompareItem {
                 added.add(other.displayNameList.get(key));
         }
 
-        System.out.println("Changed items:\n");
-        System.out.println("Running:");
+        output += "Changed items:\n";
+        output += "Running:\n";
         for(Data data : running)
-            System.out.println(data.getStatus().replaceAll(" ", "") + ": " + data.nd());
-        System.out.println("\nStopped:");
+            output += data.getStatus().replaceAll(" ", "") + ": " + data.nd() + "\n";
+        output += "\nStopped:\n";
         for(Data data : stopped)
-            System.out.println(data.getStatus().replaceAll(" ", "") + ": " + data.nd());
-        System.out.println("\nRemoved:");
+            output += data.getStatus().replaceAll(" ", "") + ": " + data.nd() + "\n";
+        output += "\nRemoved:\n";
         for(Data data : removed)
-            System.out.println("Removed: " + data.nd());
-        System.out.println("\nAdded:");
+            output += "Removed: " + data.nd() + "\n";
+        output += "\nAdded:\n";
         for(Data data : added)
-            System.out.println(data.getStatus().replaceAll(" ", "") + ": " + data.nd());
+            output += data.getStatus().replaceAll(" ", "") + ": " + data.nd() + "\n";
+        System.out.println(output);
+        return output;
     }
 }
