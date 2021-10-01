@@ -27,6 +27,10 @@ public class Data {
         return displayName;
     }
 
+    public boolean compareStatus(Data other) {
+        return status.equals(other.status);
+    }
+
     public String toString() {
         return "Status: " + status + " Name: " + name + " DisplayName: " + displayName;
     }

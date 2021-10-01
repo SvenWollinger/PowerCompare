@@ -1,9 +1,7 @@
 package io.wollinger.powercompare;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import org.apache.commons.io.FileUtils;
 
 public class PowerCompare {
     public static void main(String[] args) {
@@ -30,7 +28,7 @@ public class PowerCompare {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if(line.toLowerCase().startsWith("stopped") || line.toLowerCase().startsWith("started"))
+                if(line.toLowerCase().startsWith("stopped") || line.toLowerCase().startsWith("running"))
                     list.add(new Data(line));
             }
         } catch (IOException e) {
