@@ -11,6 +11,10 @@ public class Data {
         displayName = line.substring(28);
     }
 
+    public String nd() {
+        return displayName + " " + name;
+    }
+
     public String getStatus() {
         return status;
     }

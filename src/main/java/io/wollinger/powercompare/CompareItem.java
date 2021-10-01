@@ -13,6 +13,11 @@ public class CompareItem {
     }
 
     public void compare(CompareItem other) {
-        
+        for(String key : displayNameList.keySet()) {
+            if(!other.displayNameList.containsKey(key)) {
+                System.out.println("Removed entry: " + displayNameList.get(key).nd());
+            }
+            //System.out.println("Comparing: " + key + ". Exists in other: " + other.displayNameList.containsKey(key));
+        }
     }
 }

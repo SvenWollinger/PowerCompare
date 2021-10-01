@@ -26,6 +26,8 @@ test {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.0'
+    implementation 'commons-io:commons-io:2.11.0'
+
 }
 
 jar {
@@ -34,6 +36,14 @@ jar {
                 'Main-Class': 'io.wollinger.powercompare.PowerCompare'
         )
     }
+
+    from {
+        configurations
+                .runtimeClasspath
+                .findAll { !it.name.endsWith('pom') }
+                .collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
 }
 
 test {

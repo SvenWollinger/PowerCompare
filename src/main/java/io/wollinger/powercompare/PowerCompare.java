@@ -1,30 +1,28 @@
 package io.wollinger.powercompare;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import org.apache.commons.io.FileUtils;
 
 public class PowerCompare {
     public static void main(String[] args) {
         if(args.length < 2)
             System.out.println("Please provide atleast two paths!");
 
-        File file1 = new File(args[0]);
-        File file2 = new File(args[1]);
-        if(!file1.exists()) {
+        File oldFile = new File(args[0]);
+        File newFile = new File(args[1]);
+        if(!oldFile.exists()) {
             System.out.println("File 1 does not exist.");
             System.exit(0);
         }
 
-        if(!file2.exists()) {
+        if(!newFile.exists()) {
             System.out.println("File 2 does not exist.");
             System.exit(0);
         }
 
-        new CompareItem(load(file1)).compare(new CompareItem(load(file2)));
-        //new CompareItem(load(file2)).compare(new CompareItem(load(file1)));
+        new CompareItem(load(oldFile)).compare(new CompareItem(load(newFile)));
     }
 
     public static ArrayList<Data> load(File file) {
