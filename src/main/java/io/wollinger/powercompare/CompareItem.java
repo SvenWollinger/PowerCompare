@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CompareItem {
-    HashMap<String, Data> displayNameList = new HashMap<>();
+    private String filename;
+    private final HashMap<String, Data> displayNameList = new HashMap<>();
 
-    public CompareItem(ArrayList<Data> list) {
+    public CompareItem(ArrayList<Data> list, String filename) {
+        this.filename = filename;
         for(Data data : list) {
             displayNameList.put(data.getDisplayName(), data);
         }
@@ -39,7 +41,9 @@ public class CompareItem {
                 added.add(other.displayNameList.get(key));
         }
 
-        output += "Changed items:\n";
+        output += "Old file: " + filename + "\n";
+        output += "New file: " + other.filename + "\n";
+        output += "\nChanged items:\n";
         output += "Running:\n";
         for(Data data : running)
             output += data.getStatus().replaceAll(" ", "") + ": " + data.nd() + "\n";

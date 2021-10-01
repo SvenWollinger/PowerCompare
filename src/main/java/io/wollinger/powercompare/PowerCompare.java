@@ -9,7 +9,6 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class PowerCompare {
                 System.exit(0);
             }
 
-            new CompareItem(load(oldFile)).compare(new CompareItem(load(newFile)));
+            new CompareItem(load(oldFile), oldFile.getAbsolutePath()).compare(new CompareItem(load(newFile), newFile.getAbsolutePath()));
         } else {
             JFrame frame = new JFrame();
             frame.setTitle("PowerCompare");
@@ -39,28 +38,30 @@ public class PowerCompare {
             final File[] newFile = new File[1];
 
             final int[] index = {0};
-            JLabel dropLabel = new JLabel("Drop file 1", JLabel.CENTER);
+            final String DROP_0 = "Drop file 1 or drag two files in";
+            final String DROP_1 = "Drop file 2";
+            JLabel dropLabel = new JLabel(DROP_0, JLabel.CENTER);
             dropLabel.setDropTarget(new DropTarget() {
                 public synchronized void drop(DropTargetDropEvent evt) {
                     try {
                         evt.acceptDrop(DnDConstants.ACTION_COPY);
                         List droppedFiles = (List) evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
-                        if(index[0] == 0) {
-                            dropLabel.setText("Drop file 2");
+                        if(droppedFiles.size() > 1) {
+                            ArrayList<File> files = new ArrayList<>();
+                            for(Object file : droppedFiles) {
+                                files.add((File) file);
+                            }
+                            evaluateToFile(files.get(0), files.get(1));
+                            dropLabel.setText(DROP_0);
+                        } else if(index[0] == 0) {
+                            dropLabel.setText(DROP_1);
                             oldFile[0] = (File) droppedFiles.get(0);
                             index[0]++;
                         } else {
-                            dropLabel.setText("Comparing...");
                             newFile[0] = (File) droppedFiles.get(0);
-                            String output = new CompareItem(load(oldFile[0])).compare(new CompareItem(load(newFile[0])));
-
-                            String filename = "result-" + getTime() + ".txt";
-                            try (PrintWriter out = new PrintWriter(filename)) {
-                                out.println(output);
-                            }
-                            Desktop.getDesktop().edit(new File(filename));
+                            evaluateToFile(oldFile[0], newFile[0]);
                             index[0] = 0;
-                            dropLabel.setText("Drop file 1");
+                            dropLabel.setText(DROP_0);
                         }
                     } catch (UnsupportedFlavorException | IOException e) {
                         e.printStackTrace();
@@ -70,6 +71,16 @@ public class PowerCompare {
             frame.add(dropLabel);
             frame.setVisible(true);
         }
+    }
+
+    public static void evaluateToFile(File f1, File f2) throws IOException {
+        String output = new CompareItem(load(f1), f1.getAbsolutePath()).compare(new CompareItem(load(f2), f2.getAbsolutePath()));
+
+        String filename = "result-" + getTime() + ".txt";
+        try (PrintWriter out = new PrintWriter(filename)) {
+            out.println(output);
+        }
+        Desktop.getDesktop().edit(new File(filename));
     }
 
     public static String getTime() {

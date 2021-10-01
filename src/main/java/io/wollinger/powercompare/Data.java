@@ -1,9 +1,9 @@
 package io.wollinger.powercompare;
 
 public class Data {
-    private String status;
-    private String name;
-    private String displayName;
+    private final String status;
+    private final String name;
+    private final String displayName;
 
     public Data(String line) {
         status = line.substring(0, 8);
@@ -17,10 +17,6 @@ public class Data {
 
     public String getStatus() {
         return status;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getDisplayName() {
